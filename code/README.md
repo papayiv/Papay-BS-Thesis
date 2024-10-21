@@ -32,6 +32,6 @@ jupyter notebook
 ```
 Далее, откройте файл `mixtures.ipynb` в интерфейсе Jupyter Notebook.
 
-## Описание файлов в `files` <a name="files-description"></a>
+## Описание файлов
 
 - `mixtures.py`: содержит эксперимент.
