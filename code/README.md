@@ -15,7 +15,7 @@
 git clone https://github.com/papayiv/Papay-BS-Thesis.git
 ```
 
-Перейдите к директорию с кодом:
+Перейдите в директорию с кодом:
 ```bash
 cd code/experiments
 ```
