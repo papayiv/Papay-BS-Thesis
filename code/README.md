@@ -5,14 +5,14 @@
 ## Содержание
 1. [Установка](#installation)
 2. [Использование](#usage)
-3. [Описание файлов `files`](#files-description)
+3. [Описание файлов](#files-description)
 
 ## Установка <a name="installation"></a>
 Чтобы использовать этот проект, вам необходимо иметь Python и Jupyter Notebook установленные на вашем компьютере. Вы можете скачать Python [отсюда](https://www.python.org/downloads/) и Jupyter Notebook [отсюда](https://jupyter.org/install).
 
 Склонируйте репозиторий:
 ```bash
-git clone https://github.com/Papay-BS-Thesis.git
+git clone https://github.com/papayiv/Papay-BS-Thesis.git
 ```
 
 Перейдите к директорию с кодом:
@@ -32,6 +32,6 @@ jupyter notebook
 ```
 Далее, откройте файл `mixtures.ipynb` в интерфейсе Jupyter Notebook.
 
-## Описание файлов
+## Описание файлов <a name="files-description"></a>
 
 - `mixtures.py`: содержит эксперимент.
