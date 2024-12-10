@@ -40,22 +40,20 @@
 \begin{document}
 
 %\begin{frontmatter}
-\title{Ordinal Classification Using Partially Ordered Feature Sets\tnoteref{t1}}
- \tnotetext[t1]{This publication is based on work funded by Skolkovo Institute of Science and Technology (Skoltech) in the within the framework of the SkolTech/MITInitiative.}
+\title{Ordinal Classification Using Partially Ordered Feature Sets}
+ 
 
 \author[mipt]{I.\,D.~Papay}
-\ead{papai.id@phystech.edu}
-\author[mipt]{M.\,P.~Kuznetsov\corref{cor1}}
-\ead{mikhail.kuznecov@phystech.edu}
+\ead{papayid1503@gmail.com}
+
 \author[mipt,ccas]{V.\,V.~Strijov}
 \ead{strijov@ccas.ru}
 \cortext[cor1]{Corresponding author}
-\address[mipt]{Moscow Institute of Physics and Technology, Institutskiy lane 9, Dolgoprudny city, Moscow region, 141700, Russia}
-\address[ccas]{Dorodnicyn Computing Center of Russian Academy of Sciences,  Vavilov st. 40, 119333 Moscow, Russia}
+
 
 \begin{abstract}
 This paper presents a method to solve an ordinal classification problem where the objects are described with a set of partially ordered features.
-To construct an ordinal classification model we aggregate partial orders of features by weighting the incidence matrices of partial order graphs. To describe set of possible solutions we use partial order cones corresponding to the incidence matrices and find a solution of the classification problem as the projection of a vector of response variables to a superposition of the cones. We propose a method of optimum parameter estimation for the ordinal classification model. The method is applied to the IUCN Red List categorization problem.
+To construct an ordinal classification model we aggregate partial orders of features by weighting the incidence matrices of partial order graphs. To describe set of possible solutions we use partial order cones corresponding to the incidence matrices and find a solution of the classification problem as the projection of a vector of response variables to a superposition of the cones. We propose a method of optimum parameter estimation for the ordinal classification model. The method is applied to the Football Player List categorization problem.
 \end{abstract}
 
 \begin{keyword}
@@ -75,7 +73,38 @@ As a solution of the ordinal classification problem we find a point in the super
 
 In this paper we investigate properties of the partial order cone generators. We show that the generator vectors are equal to the columns of the incidence matrix corresponding to the partial order. This novel fact proves that the proposed method of ordinal classification finds an optimal function in a sufficiently broad class of monotonic transformations.
 
-The proposed method is compared with decision tree, graph models~\cite{Wilhelm2021} and generalized linear regression methods~\cite{Eugene2023} on synthetic and real data. As a real data we consider a problem of the IUCN Red List categorization, also described in. The goal is to categorize those plants and animals that are facing the higher risk of extinction. The following categories are considered: least concern, near threatened, vulnerable, endangered, critically endangered, extinct in the wild. This categorization is monotonic. The partially ordered features (e.g., population size, area square) are given by the experts. The proposed method shows better results in comparison with the alternative approaches.
+As methods competing with the proposed method, that solves our problem, we assume decision oblique trees and isotonic regression.
+
+Decision tree can be explained a series of nested if-then-else statements. Each  non-leaf  node  has  a  predicate  associated, testing an  attribute of data.  Terminal node  denotes class, or category. To classify a data ,we have to traverse down the tree by starting  from root  node ,testing predicates( test attribute) and taking branches labelled with corresponding value.
+
+Isotonic regression is a technique used to fit a non-decreasing function to a set of data points.
+We can think of isotonic regression as a generalization of linear regression where the function is constrained to be non-decreasing.
+
+The proposed method is compared with oblique decision tree~\cite{Wilhelm2021} and isotonic regression~\cite{SALMON2017} on synthetic and real data. As a real data we consider a problem of the Football Player List categorization, also described in. The goal is to rank FIFA players by their world reputation ranks basing on their characteristics. The following categories are considered: least popular, rarely heard, normally heard, popular, extremely popular. This categorization is monotonic. The partially ordered features (e.g., mobility, strength) are given by the experts. The proposed method shows better results in comparison with the alternative approaches.
+
+\begin{table}[!htbp]
+\label{tab:intro_comparative}
+\caption{Comparative analysis of basic solution to my problem.}
+\begin{tabular}{p{5cm}|p{5cm}|p{5cm}}
+	Solution & Strengths & Weakness \\
+	\hline
+	Partial Orders & 
+	no contradictions in the partial order &
+	vulnerable to noise \\
+    \hline
+	Isotonic regression & 
+	working fast &
+	inaccurately predictions \\
+    \hline
+	Oblique decision trees & 
+	learns non-linearity dependence &
+	vulnerable to retraining \\
+    \hline
+	Stochastic Partial Orders & 
+	no vulnerability to noise &
+	demand higher dimension of features \\
+\end{tabular} 
+\end{table}
 
 \section{Ordinal classification with monotonicity constraints}
 \paragraph{Partially ordered feature set}
@@ -232,7 +261,7 @@ and this decomposition is unique.
 
 The figure illustrates vector~$\bchi$ decomposition on the generators~$\bzeta_1,\bzeta_2$ of the cone~$\mathcal{X}$. The vector~$\bchi\in \mathcal{X}$ is a nonnegative combination of the generators~$\bzeta_1=[1;1]$~and~$\bzeta_2=[1;0]$ with the coefficients~$\lambda_1,\lambda_2\geq 0$.
 
-Theorem~\ref{thConeGen} establishes the following connection between the cone~$\mathcal{X}_j$ and the partial order matrix~$\bZ_j$: the generatrix~$\bzeta_{jk}$ of the cone~$\mathcal{X}_j$ is a column~$k$ of the matrix~$\bZ_j$.
+Theorem 1 establishes the following connection between the cone~$\mathcal{X}_j$ and the partial order matrix~$\bZ_j$: the generatrix~$\bzeta_{jk}$ of the cone~$\mathcal{X}_j$ is a column~$k$ of the matrix~$\bZ_j$.
 
 \paragraph{Ordinal classification with monotonicity constraints}
 In this section we formulate the problem of ordinal classification with monotonicity constraints; the constraints monotonicity means satisfying the given object binary relations.
@@ -260,11 +289,11 @@ where~$\sum\limits_{i=1}^n\mathcal{X}_i$ denotes a Minkowski sum of the sets~$\m
 \]
 Note that though a Minkoswski sum of the cones~$\mathcal{X}_1,...,\mathcal{X}_n$ is a special case of a superposition of the sets~$\mathcal{X}_1,...,\mathcal{X}_n$, it still defines a sufficiently broad class of monotonic transformations. The concept of Minkowski sum generalizes \emph{linear model} idea in the case of ordered feature sets.
 
-As long as target vector~$\hat{\by}$ must belong to the Minkowski sum of the cones,~$\hat{\by}\in \sum\limits_{i=1}^n\mathcal{X}_i$, from Theorem~\ref{thConeGen} it follows that the vector~$\hat{\by}$ decomposes in a linear combination of generators of the cones~$\mathcal{X}_1,...,\mathcal{X}_n$,
+As long as target vector~$\hat{\by}$ must belong to the Minkowski sum of the cones,~$\hat{\by}\in \sum\limits_{i=1}^n\mathcal{X}_i$, from Theorem 1 it follows that the vector~$\hat{\by}$ decomposes in a linear combination of generators of the cones~$\mathcal{X}_1,...,\mathcal{X}_n$,
 \[
 \hat{\by}=\sum\limits_{j=1}^n\sum\limits_{k=1}^m\lambda_{jk}\bzeta_{jk},\quad \lambda_{jk}\in\mathbb{R}_+,
 \]
-where~$\bzeta_{jk}$~is a~$k$~-generatrix of the cone~$\mathcal{X}_j$. The vector~$\bzeta_{jk}$ is also a $k$~column of the partial order matrix~$\bZ_j$, see fig.~\ref{fig:ConeTheorem}.
+where~$\bzeta_{jk}$~is a~$k$~-generatrix of the cone~$\mathcal{X}_j$. The vector~$\bzeta_{jk}$ is also a $k$~column of the partial order matrix~$\bZ_j$.
 Therefore the utility function~$u$ from the formula~(\ref{problOrdClass}) for any object~$\bx\in X$ is as follows,
 \begin{equation}
 u(\bx) = \sum\limits_{j=1}^n w_j \sum\limits_{k=1}^m\lambda_{jk}z_j(\bx, \bx_k),
@@ -312,8 +341,6 @@ The explicit form of the loss function~$S$, of the decision rule~$\phi$ and of t
 \section{Classification methods}
 \subsection{Isothonic regression}
 
-Isotonic regression is a technique used to fit a non-decreasing function to a set of data points.
-We can think of isotonic regression as a generalization of linear regression where the function is constrained to be non-decreasing.
 
 More formally suppose that one collects $n$ sample points $y_1,\dots, y_n$ and has weights $w_1, \dots, w_n$ associated with each data point.
 
@@ -399,7 +426,54 @@ Hence, the isotonic regression problem can be formulated as a convex quadratic p
 The intuition behind the PAVA algorithm is to merge adjacent blocks of constant values in the primal vector, as the targeted solution is simply the average of the observe signal over each block.
 Hence, the algorithm aims at creating the blocks of constant values in the primal vector. The dual variables can be inferred from the  solution from the previous lemma.
 
+\subsection{Decision oblique trees}
 
+\paragraph{Univariate and multivariate decision tree}
+Multivariate  decision  trees  differ  from  univariate  decision trees in the way they  test the  attributes.   Univariate decision trees  test  single  attribute  at  internal  node.  Multivariate decision tree several attribute participate in single node split test.    The  limitation  to  one  attribute  reduces the  ability  of expressing concepts, due to its disability in three forms.  Splits could only be orthogonal to axes, subtrees may be replicated and fragmentation. 
+
+Univariate test using feature $x_i$ can only split a space with a boundary that is orthogonal to the $x_i$ axis. This results in larger trees and poor generalization.  The  multivariate  decision  tree-constructing algorithm selects not the best attribute but the best linear  combination of the attributes: $\sum_{i=1}^f w_i x_i>0$. $w_i$ are the weights associated with each feature  $x_i$ and  $w_0$ is the threshold to be determined from the data. Multivariate decision trees  differ from  univariate trees  as the  symbolic  features  are  converted  into  numeric  features. And all splits are binary, final weighted sum is numeric.
+
+We examine decision trees that test a linear combination of the attributes
+at each internal node. More precisely, let an example take the form $X = x1; x2; \dots xd$; $C_j$
+where $C_j$ is a class label and the $x_i$ are real-valued attributes. The test at each node will
+then have the form:
+
+\begin{align}
+\sum_{i=1}^d a_i x_i + a_{d+1} > 0.
+\end{align}
+
+Here $a_1; \dots ; a_{d+1}$ are real-valued coefficients. Because these tests are equivalent to hyperplanes at an oblique orientation to the axes, we call this class of decision trees oblique
+decision trees.
+
+\begin{algorithm}[ht]
+\caption{CART}\label{alg:cap}
+\begin{algorithmic}
+\COMMENT{To induce a split at node T of the decision tree:}
+    \COMMENT{Normalize values for all d attributes.}
+    \State $L = 0$
+    \WHILE{TRUE}
+        \STATE $L=L+1$
+        \COMMENT{Let the current split $s_L$ be $u \leq c$, where $u=\sum_{i=1}^d a_i x_i$}
+        \FOR{$i=1$ to $d$}
+            \FOR{$\gamma=-0.25$ to $0.25$}
+                \COMMENT{Search for the $\sigma$ that maximizes the goodness of the split $u-\sigma(a_i+\gamma) \leq c$}
+            \ENDFOR
+            \COMMENT{Let $\sigma^*,\gamma^*$ be the settings that result in highest goodness in these 3 searches}
+            \STATE $a_i=a_i-\sigma^*$
+            \STATE $c=c-\sigma^* \gamma^*$
+        \ENDFOR
+        \COMMENT{Perturb c to maximize the goodness of $s_L$, keeping $a_1, \dots, a_d$ constant}
+        \COMMENT{If |goodness($s_L$) - goodness($s_{L-1}$)|$\leq \epsilon$ exit while loop}
+    \ENDWHILE
+    \COMMENT{Eliminate irrelevant attributes in $\{a_1; \dots ; a_d\}$ using backward elimination}
+    \COMMENT{Convert $s_L$ to a split on the un-normalized attributes}
+    \COMMENT{Return the better of $s_L$ and the best axis-parallel split as the split for $T$}
+\end{algorithmic}
+\end{algorithm}
+
+Tree induction algorithms create decision trees that take into  account only a single attribute at  a time. For each node of the decision tree an attribute is selected from the  feature  space  of  the  dataset  which  brings  maximum information gain  by splitting the  data on its  distinct values. The information gain is  calculated as the difference between the entropy of the initial dataset and the sum of the entropies of each of the subsets after the split. Algorithm selects at each node the split on the attribute which gives the biggest gain Such trees  make splits parallel to the axis in the feature  space of the  dataset. 
+
+On the other  hand, oblique decision  trees  split  the  feature  space  by  considering combinations  of  the  attribute  values,  be  them  linear  or otherwise. Though these methods can find the optimal linear discriminants for specific goodness measures, the size of the linear program grows very fast with the number of instances and the number of attributes.
 
 \subsection{An ordinal classification algorithm}
 To estimate parameters of the model~(\ref{ordClassMdl}) we propose a two-stage algorithm. In the first stage estimate the partial order matrix~$\bPsi$, where the elements of the matrix~$\bPsi$ equal to the values of function~$\Psi$ on the objects of the sample~$\mathfrak{D}$,
@@ -541,60 +615,90 @@ where~$\sigma$~is a sigmoid function,
 \sigma(t)=1/\bigl(1 + \exp{(-t)}\bigr),
 \]
 and~$\bpsi_i$~is a column~$i$~of the matrix~$\bPsi$.
+
+\subsection{Stochastic ordinal classification algorithm}
+
+To estimate parameters of the model~(\ref{ordClassMdl}) we propose a two-stage algorithm, like we have said before. In the first stage we estimate the partial order matrix~$\bPsi$, where the elements of the matrix~$\bPsi$ equal to the values of function~$\Psi$ on the objects of the sample~$\mathfrak{D}$,
+\[
+\bPsi(i,k) = \Psi(\bx_i,\bx_k).
+\]
+In the second stage estimate parameters~$\lambda_k$ of a linear combination~$\sum\limits_{k=1}^m \lambda_{k} \Psi(\bx_i, \bx_k)$ from~(\ref{utilityDecompDual}).
+\paragraph{Partial order matrix estimation}
+Estimate matrix~$\bPsi$ of the pairwise objects dominance using initial approximation as the matrix P. By matrix P we consider
+$$P_0 = \begin{pmatrix} P(x_1 \succeq x_1 | \mu_1 \succeq \mu_1) & P(x_1 \succeq x_2 | \mu_1 \succeq \mu_2) &                       &                       &    \\
+  & \ddots  & P(x_i \succeq x_j | \mu_i \succeq \mu_j)                    &                       &    \\
+  &    & \ddots & \ddots &    \\
+  &    &                       &                     & P(x_n \succeq x_n | \mu_n \succeq \mu_n)\end{pmatrix}
+ \in \mathbb{R}^{n \times n}\enspace,
+$$
+This matrix can be easily calculated by using sampling methods.
+Let every element of a matrix~$\bPsi$ be a linear combination of elements of the matrices~$\bZ_1,...,\bZ_n$, according to~(\ref{problLinearMon}):
+\[
+\bPsi(i,k)=\sum\limits_{j=1}^n w_j\bZ_j(i,k).
+\]
+Here we have to assume the probability of existing the noise within sample data. So it is necessary to use learning without teacher - that is how will be used matrix P.
+The optimal parameters~$\hat{\bw}$ minimize a loss function
+\[
+\hat{\bw} = \arg\min\limits_{\bw}\sum\limits_{i=1}^m\sum\limits_{k=1}^m\left(P_0(i,k) - \sum\limits_{j=1}^n w_j\bZ_j(i,k)\right)^2,
+\]
+here~$\bP$~is considered to be partial order matrix corresponding to the class labels vector~$\by$.
+Since the target variable~$P_0(i,k)$ is $\in[0,1]$, we propose to estimate an probability distribution vector~$\hat{\bw}$ using one of the standard optimization methods. In this paper we use the Mean Least Squares method.
+
+
+
+\paragraph{Object weights estimation}
+Estimate parameters~$\lambda_k$ of the function~(\ref{ordClassMdl}) using the partial order matrix~$\bPsi$ estimation,
+\[
+f(\bx_i) = \phi\left(\sum\limits_{k=1}^m \lambda_{k} \Psi(\bx_i, \bx_k)\right).
+\]
+To estimate the parameters~$\lambda_k$ use a Mean Least Squares Method instead of logistic regression to avoid retraining. Furthermore by classifying an object~$\bx_i$ as we did before. The optimal parameters are estimated by minimization of the loss function~$S$,
+\[
+S(\blambda, \boldsymbol{\mu}, P)=\sum\limits_{i=1}^m \left(\mu_{y_i}- \mu_{y_{i-1}} - \blambda^T \bpsi_i\right)\rightarrow \min,
+\]
+and~$\bpsi_i$~is a column~$i$~of the matrix~$\bPsi$.
+By finding optimal parameters we get the proper estimation of $\bPsi$.
+
+
 \section{Computational experiment}
-Int this section we illustrate the algorithm for the problem of the IUCN Red List categorization and compare results with the alternative approaches.
+Int this section we illustrate the algorithm for the problem of the Football Player List categorization and compare results with the alternative approaches.
 \begin{figure}[h]
 \begin{center}
-\subfigure[Original $\bZ_0$]{\includegraphics[width=0.49\textwidth]{Z0.eps}}
-\subfigure[Estimated $\bPsi$]{\includegraphics[width=0.49\textwidth]{Psi.eps}}
-\caption{An example of the original matrix~$\bZ_0$ and the estimated matrix~$\bPsi$ for the problem of the IUCN Red List categorization}
+\subfigure[Original $\bZ_0$]{\includegraphics[width=0.49\textwidth]{Z_0.jpg}}
+\subfigure[Estimated $\bPsi$]{\includegraphics[width=0.49\textwidth]{Z_k.jpg}}
+\caption{An example of the original matrix~$\bZ_0$ and the estimated matrix~$\bPsi$ for the problem of the Football Player List categorization}
 \label{figMatrices}
 \end{center}
 \end{figure}
 The fig.~\ref{figMatrices} shows the first stage of the proposed algorithm, an estimation of the matrix~$\bPsi$ using the matrices~$\bZ_0,\bZ_1,...,\bZ_n$.
-The fig.~\ref{figMatrices} shows the original~$\bZ_0$ and the estimated~$\bPsi$ matrices for the IUCN Red List categorization problem. For this demonstration we chose object with three expert-given categories (CR --- crtical, EN --- endangered, VU --- vulnerable) and construct a binary matrix~$\bZ_0$ shown at fig.~\ref{figMatrices}(a). The fig.~\ref{figMatrices}(b) shows the estimated matrix~$\bPsi$. Every element of the matrix~$\bPsi(i,k)$ shows pairwise dominance of the objects~$\bx_k$~and~$\bx_i$.
+The fig.~\ref{figMatrices} shows the original~$\bZ_0$ and the estimated~$\bPsi$ matrices for the Football Player List categorization problem. For this demonstration we construct a binary matrix~$\bZ_0$ shown at fig.~\ref{figMatrices}(a). The fig.~\ref{figMatrices}(b) shows the second stage of the algorithm for the Football Player List sample. The estimated matrix~$\bPsi$ is calculated without teacher. Every element of the matrix~$\bPsi(i,k)$ shows pairwise dominance of the objects~$\bx_k$~and~$\bx_i$.
 
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=.8\textwidth]{y1.eps}
-\caption{Illustration of the IUCN Red List categorization}
-\label{figClass}
-\end{center}
-\end{figure}
-The fig.~\ref{figClass} shows the second stage of the algorithm for the Red List sample. Three columns of the matrix~$\bPsi$ were chosen for the demonstration, so that the feature space is three-dimensional. The marker color shows an original expert classification, the circle color shows classification estimated by an algorithm. In particular, the fig.~\ref{figClass} indicates the model <<outliers>>~--- objects, improperly classified by the experts.
 \paragraph{Algorithms comparison}
-The table~\ref{tab:AlgComparison} shows comparison of the proposed method with the method of decision trees and with the generalized linear regression. The loss function is Hamming distance between the class labels,
+The table~\ref{tab:AlgComparison} shows comparison of the proposed method with the method of decision oblique trees and with the isotonic regression. The loss function is Hamming distance between the class labels,
 \[
 s(y,\hat{y})=|y-\hat{y}|.
 \]
 
 \begin{table}[h]
 \centering
-\caption{Algorithm comparison on the IUCN Red List dataset. The loss function is Hamming distance between class labels.}
+\caption{Algorithm comparison on the Football Player dataset. The loss function is Hamming distance between class labels.}
 \begin{tabular}{|c|c|c|}
   \hline
   Algorithm & Learn error & Test error \\
   \hline
-  Partial Orders & 0.29 & 0.58 \\
+  Partial Orders & 1.14 & 1.69 \\
   \hline
-  Decision Trees & 0.25 & 0.69 \\
+  Isotonic Regression & 0.98 & 1.28 \\
   \hline
-  Oblique Decision Trees & ??? & ??? \\
+  Oblique Decision Trees & 0.47 & 1.06 \\
   \hline
-  Generalized Linear Model & 0.57 & 0.71 \\
-  \hline
-  Isotonic Regression & ??? & ??? \\
-  \hline
-  Supporting Vector Machine & ??? & ??? \\
-  \hline
-  Probabilistic Graphical Model & ??? & ??? \\
+  Stochastic Partial Orders & 1.48 & 1.32 \\
   \hline
 \end{tabular}
 \label{tab:AlgComparison}
 \end{table}
 
 \section{Conclusion}
-The proposed method of the ordinal classification problem uses partially ordered sets of expert estimations of features. We considered an alternative problem statement for the ordinal classification with monotonic constraints. Each partially ordered feature set corresponds to the partial order cone and to the matrix of the partial order graph. We find the solution of an ordinal classification problem as the projection to the cones superposition. The proposed method is compared with alternative approaches on the IUCN Red List dataset. The quality of classification was improved using the ideas considered in the present paper.
+The proposed method of the ordinal classification problem uses partially ordered sets of expert estimations of features. We considered an alternative problem statement for the ordinal classification with monotonic constraints. Each partially ordered feature set corresponds to the partial order cone and to the matrix of the partial order graph. We find the solution of an ordinal classification problem as the projection to the cones superposition. The proposed method is compared with alternative approaches on the Football Player List dataset. The quality of classification was improved using the ideas considered in the present paper.
 
 \bibliographystyle{unsrturl}
 \bibliography{PartialOrdering}
