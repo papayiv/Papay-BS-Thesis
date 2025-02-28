@@ -6,7 +6,7 @@
 \usepackage{algorithm}
 \usepackage{algorithmic}
 
-\journal{Decision Support Systems}
+\journal{Expert Systems}
 
 \usepackage{a4wide}
 \usepackage{amsmath, amsfonts, amssymb}
@@ -53,7 +53,7 @@
 
 \begin{abstract}
 This paper presents a method to solve an ordinal classification problem where the objects are described with a set of partially ordered features.
-To construct an ordinal classification model we aggregate partial orders of features by weighting the incidence matrices of partial order graphs. To describe set of possible solutions we use partial order cones corresponding to the incidence matrices and find a solution of the classification problem as the projection of a vector of response variables to a superposition of the cones. We propose a method of optimum parameter estimation for the ordinal classification model. The method is applied to the Football Player List categorization problem.
+To construct an ordinal classification model we aggregate partial orders of features by weighting the incidence matrices of partial order graphs. To describe set of possible solutions we use partial order cones corresponding to the incidence matrices and find a solution of the classification problem as the projection of a vector of response variables to a superposition of the cones. We propose a method of optimum parameter estimation for the ordinal classification model. The method is applied to the Football Player List, Student Marks List and Red List categorization problems.
 \end{abstract}
 
 \begin{keyword}
@@ -80,31 +80,34 @@ Decision tree can be explained a series of nested if-then-else statements. Each 
 Isotonic regression is a technique used to fit a non-decreasing function to a set of data points.
 We can think of isotonic regression as a generalization of linear regression where the function is constrained to be non-decreasing.
 
-The proposed method is compared with oblique decision tree~\cite{Wilhelm2021} and isotonic regression~\cite{SALMON2017} on synthetic and real data. As a real data we consider a problem of the Football Player List categorization, also described in. The goal is to rank FIFA players by their world reputation ranks basing on their characteristics. The following categories are considered: least popular, rarely heard, normally heard, popular, extremely popular. This categorization is monotonic. The partially ordered features (e.g., mobility, strength) are given by the experts. The proposed method shows better results in comparison with the alternative approaches.
+The proposed method is compared with oblique decision tree~\cite{Wilhelm2021} and isotonic regression~\cite{SALMON2017} on synthetic and real data. As a basic example of real data we consider a problem of the Football Player List categorization, also described in. The goal is to rank FIFA players by their world reputation ranks basing on their characteristics. The following categories are considered: least popular, rarely heard, normally heard, popular, extremely popular. This categorization is monotonic. The partially ordered features (e.g., mobility, strength) are given by the experts. The proposed method shows better results in comparison with the alternative approaches.
 
 \begin{table}[!htbp]
 \label{tab:intro_comparative}
 \caption{Comparative analysis of basic solution to my problem.}
-\begin{tabular}{p{5cm}|p{5cm}|p{5cm}}
-	Solution & Strengths & Weakness \\
+\begin{tabular}{|p{5cm}|p{5cm}p{5cm}|} \hline
+	Algorithm & Strengths & Weakness \\
 	\hline
 	Partial Orders & 
 	no contradictions in the partial order &
 	vulnerable to noise \\
     \hline
-	Isotonic regression & 
+	Isotonic regression~\cite{SALMON2017} & 
 	working fast &
 	inaccurately predictions \\
     \hline
-	Oblique decision trees & 
+	Oblique decision trees~\cite{Wilhelm2021} & 
 	learns non-linearity dependence &
 	vulnerable to retraining \\
     \hline
 	Stochastic Partial Orders & 
 	no vulnerability to noise &
 	demand higher dimension of features \\
+    \hline
 \end{tabular} 
 \end{table}
+
+Stochastic Partial Orders method still in the development cause the limits of the data. Such task, like solving ranking-categorization problem is specific and it may be difficult to find appropriate datasets for that. We assuming that by the time, with appearing of data with higher dimension of features, this new method will perform much better results.
 
 \section{Ordinal classification with monotonicity constraints}
 \paragraph{Partially ordered feature set}
@@ -116,7 +119,7 @@ Let~$\mathfrak{D}$ be a sample consisting of the pairs
 where~$\bx_i=[x_{i1},...,x_{ij},...,x_{in}]\T$~is an object to be classified, $y_i$~is a class label. An object~$\bx_i$ is an $n$-dimensional vector, each component of which belongs to the corresponding partially ordered set~$X_j$. In other words, an element~$j$ of the vector~$\bx_i$ (which is also reffered to as value of the feature~$j$ for the object~$\bx_i$) belongs to the set~$X_j$ with the given partial order relation~$\succeq$ with the following properties:
 \begin{itemize}
 \item reflexivity, $\forall a\in X$ $(a\succeq a)$,
-\item antisymmetry, $\forall a,b\in X$, $(a\succeq b)\wedge(b\succeq a)\Rightarrow (a= c)$,
+\item antisymmetry, $\forall a,b\in X$, $(a\succeq b)\wedge(b\succeq a)\Rightarrow (a= b)$,
 \item transitivity, $\forall a,b,c\in X$ $(a\succeq b)\wedge(b\succeq c)\Rightarrow (a\succeq c)$.
 \end{itemize}
 Thereby the object set~$X$ is a Cartesian product of the partially ordered sets~$X_1,...,X_n$,
@@ -229,6 +232,7 @@ where~$\bzeta_k$~is a generatrix of the cone~$\mathcal{X}$,
 \end{cases}
 \]
 and this decomposition is unique.
+\end{Theorem}
 
 \begin{tikzpicture}[>=stealth]
 \draw[thick, ->, black] (0,0) -- (12,0);
@@ -434,7 +438,7 @@ Multivariate  decision  trees  differ  from  univariate  decision trees in the w
 Univariate test using feature $x_i$ can only split a space with a boundary that is orthogonal to the $x_i$ axis. This results in larger trees and poor generalization.  The  multivariate  decision  tree-constructing algorithm selects not the best attribute but the best linear  combination of the attributes: $\sum_{i=1}^f w_i x_i>0$. $w_i$ are the weights associated with each feature  $x_i$ and  $w_0$ is the threshold to be determined from the data. Multivariate decision trees  differ from  univariate trees  as the  symbolic  features  are  converted  into  numeric  features. And all splits are binary, final weighted sum is numeric.
 
 We examine decision trees that test a linear combination of the attributes
-at each internal node. More precisely, let an example take the form $X = x1; x2; \dots xd$; $C_j$
+at each internal node. More precisely, let an example take the form $X = x_1; x_2; \dots x_d$; $C_j$
 where $C_j$ is a class label and the $x_i$ are real-valued attributes. The test at each node will
 then have the form:
 
@@ -625,10 +629,10 @@ To estimate parameters of the model~(\ref{ordClassMdl}) we propose a two-stage a
 In the second stage estimate parameters~$\lambda_k$ of a linear combination~$\sum\limits_{k=1}^m \lambda_{k} \Psi(\bx_i, \bx_k)$ from~(\ref{utilityDecompDual}).
 \paragraph{Partial order matrix estimation}
 Estimate matrix~$\bPsi$ of the pairwise objects dominance using initial approximation as the matrix P. By matrix P we consider
-$$P_0 = \begin{pmatrix} P(x_1 \succeq x_1 | \mu_1 \succeq \mu_1) & P(x_1 \succeq x_2 | \mu_1 \succeq \mu_2) &                       &                       &    \\
-  & \ddots  & P(x_i \succeq x_j | \mu_i \succeq \mu_j)                    &                       &    \\
-  &    & \ddots & \ddots &    \\
-  &    &                       &                     & P(x_n \succeq x_n | \mu_n \succeq \mu_n)\end{pmatrix}
+$$P_0 = \begin{pmatrix} P(x_1 \succeq x_1 | \mu_1 \succeq \mu_1) & P(x_1 \succeq x_2 | \mu_1 \succeq \mu_2) &                   \\
+ \ddots   & P(x_i \succeq x_j | \mu_i \succeq \mu_j) & \cdots                                  \\
+  &    & \ddots     \\
+  &    &                    P(x_n \succeq x_n | \mu_n \succeq \mu_n)\end{pmatrix}
  \in \mathbb{R}^{n \times n}\enspace,
 $$
 This matrix can be easily calculated by using sampling methods.
@@ -681,24 +685,32 @@ s(y,\hat{y})=|y-\hat{y}|.
 \begin{table}[h]
 \centering
 \caption{Algorithm comparison on the Football Player dataset. The loss function is Hamming distance between class labels.}
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|cc|}
   \hline
   Algorithm & Learn error & Test error \\
   \hline
-  Partial Orders & 1.14 & 1.69 \\
+  Partial Orders & 1.14 $\pm$ 0.05 & 1.69 $\pm$ 0.2 \\
   \hline
-  Isotonic Regression & 0.98 & 1.28 \\
+  Isotonic Regression & 0.98 $\pm$ 0.2 & 1.28 $\pm$ 0.4 \\
   \hline
-  Oblique Decision Trees & 0.47 & 1.06 \\
+  Oblique Decision Trees & 0.47 $\pm$ 0.5 & 1.06 $\pm$ 0.71 \\
   \hline
-  Stochastic Partial Orders & 1.48 & 1.32 \\
+  Stochastic Partial Orders & 1.48 $\pm$ 0.14 & 1.32 $\pm$ 0.05 \\
   \hline
 \end{tabular}
 \label{tab:AlgComparison}
 \end{table}
 
 \section{Conclusion}
-The proposed method of the ordinal classification problem uses partially ordered sets of expert estimations of features. We considered an alternative problem statement for the ordinal classification with monotonic constraints. Each partially ordered feature set corresponds to the partial order cone and to the matrix of the partial order graph. We find the solution of an ordinal classification problem as the projection to the cones superposition. The proposed method is compared with alternative approaches on the Football Player List dataset. The quality of classification was improved using the ideas considered in the present paper.
+The proposed method of the ordinal classification problem uses partially ordered sets of expert estimations of features. We considered an alternative problem statement for the ordinal classification with monotonic constraints. Each partially ordered feature set corresponds to the partial order cone and to the matrix of the partial order graph. We find the solution of an ordinal classification problem as the projection to the cones superposition. The proposed method is compared with alternative approaches on the varios examples of datasets: such as Football Player List, Student Marks List and Red List. The quality of classification was improved using the ideas considered in the present paper.
+
+\section{Availability of data and materials}
+
+All datasets and software used for supporting the conclusions of this article are available form the public data repository at the website of https://github.com/papayiv/Papay-BS-Thesis/tree/main/code.
+
+\section{Authors' contributions}
+
+VVS designed, coordinated this research and drafted the manuscript. IDP carried out experiment and data analysis, conceived of the study and participated in research coordination. The authors read and approved the final manuscript.
 
 \bibliographystyle{unsrturl}
 \bibliography{PartialOrdering}
