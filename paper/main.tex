@@ -348,6 +348,14 @@ The explicit form of the loss function~$S$, of the decision rule~$\phi$ and of t
 
 More formally suppose that one collects $n$ sample points $y_1,\dots, y_n$ and has weights $w_1, \dots, w_n$ associated with each data point.
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.49\textwidth]{fig1.png}
+\caption{An example of PAVA}
+\label{figMatrices}
+\end{center}
+\end{figure}
+
 When no a priori weights are given, we can set $w_i = 1$ for all $i \in \llbracket 1, n \rrbracket$.
 
 Then, the isotonic regression problem can be formulated as follows:
@@ -435,7 +443,19 @@ Hence, the algorithm aims at creating the blocks of constant values in the prima
 \paragraph{Univariate and multivariate decision tree}
 Multivariate  decision  trees  differ  from  univariate  decision trees in the way they  test the  attributes.   Univariate decision trees  test  single  attribute  at  internal  node.  Multivariate decision tree several attribute participate in single node split test.    The  limitation  to  one  attribute  reduces the  ability  of expressing concepts, due to its disability in three forms.  Splits could only be orthogonal to axes, subtrees may be replicated and fragmentation. 
 
+
+\begin{figure}[h]
+\begin{center}
+\subfigure[The separating hyperplane is parallel to the dominant eigenvector of Class 1.]{\includegraphics[width=0.49\textwidth]{fig2.png}}
+\subfigure[The separating hyperplane is perpendicular to the dominant eigenvector of Class 1.]{\includegraphics[width=0.49\textwidth]{fig3.png}}
+\caption{An example of mechanism of the Householder CART reflection}
+\label{figMatrices}
+\end{center}
+\end{figure}
+
 Univariate test using feature $x_i$ can only split a space with a boundary that is orthogonal to the $x_i$ axis. This results in larger trees and poor generalization.  The  multivariate  decision  tree-constructing algorithm selects not the best attribute but the best linear  combination of the attributes: $\sum_{i=1}^f w_i x_i>0$. $w_i$ are the weights associated with each feature  $x_i$ and  $w_0$ is the threshold to be determined from the data. Multivariate decision trees  differ from  univariate trees  as the  symbolic  features  are  converted  into  numeric  features. And all splits are binary, final weighted sum is numeric.
+
+
 
 We examine decision trees that test a linear combination of the attributes
 at each internal node. More precisely, let an example take the form $X = x_1; x_2; \dots x_d$; $C_j$
@@ -667,8 +687,8 @@ By finding optimal parameters we get the proper estimation of $\bPsi$.
 Int this section we illustrate the algorithm for the problem of the Football Player List categorization and compare results with the alternative approaches.
 \begin{figure}[h]
 \begin{center}
-\subfigure[Original $\bZ_0$]{\includegraphics[width=0.49\textwidth]{Z_0.png}}
-\subfigure[Estimated $\bPsi$]{\includegraphics[width=0.49\textwidth]{Z_k.png}}
+\subfigure[Original $\bZ_0$]{\includegraphics[width=0.49\textwidth]{fig4.png}}
+\subfigure[Estimated $\bPsi$]{\includegraphics[width=0.49\textwidth]{fig5.png}}
 \caption{An example of the original matrix~$\bZ_0$ and the estimated matrix~$\bPsi$ for the problem of the Football Player List categorization}
 \label{figMatrices}
 \end{center}
